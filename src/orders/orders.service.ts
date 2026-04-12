@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { r2 } from '../lib/r2';
+import { getR2Client } from '../lib/r2';
 
 interface OrderImage {
   orderId: string;
@@ -25,7 +25,7 @@ export class OrdersService {
     const key = `designs/${resolvedOrderId}/${timestamp}.jpg`;
 
     try {
-      await r2.send(
+      await getR2Client().send(
         new PutObjectCommand({
           Bucket: process.env.R2_BUCKET_NAME,
           Key: key,
