@@ -22,7 +22,8 @@ export class OrdersService {
 
     const resolvedOrderId = orderId || `order_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     const timestamp = Date.now();
-    const key = `designs/${resolvedOrderId}/${timestamp}.jpg`;
+    const ext = file.mimetype === 'image/png' ? 'png' : 'jpg';
+    const key = `designs/${resolvedOrderId}/${timestamp}.${ext}`;
 
     try {
       await getR2Client().send(
