@@ -20,7 +20,9 @@ export class OrdersService {
       throw new BadRequestException('이미지 파일이 없습니다.');
     }
 
-    const resolvedOrderId = orderId || `order_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0, 16).replace('T', '_').replace(/-/g, '').replace(':', '');
+    const resolvedOrderId = orderId || `order_${dateStr}_${Math.random().toString(36).slice(2, 8)}`;
     const timestamp = Date.now();
     const ext = file.mimetype === 'image/png' ? 'png' : 'jpg';
     const key = `designs/${resolvedOrderId}/${timestamp}.${ext}`;
