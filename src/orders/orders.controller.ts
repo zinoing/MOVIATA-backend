@@ -35,8 +35,9 @@ export class OrdersController {
   async capture(
     @UploadedFile() file: Express.Multer.File,
     @Body('orderId') orderId?: string,
+    @Body('designType') designType?: string,
   ) {
-    const result = await this.ordersService.captureDesignImage(file, orderId);
+    const result = await this.ordersService.captureDesignImage(file, orderId, designType);
     return { success: true, ...result };
   }
 
