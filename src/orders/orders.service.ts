@@ -17,6 +17,7 @@ export class OrdersService {
     orderId?: string,
     designType?: string,
     title?: string,
+    shirtColor?: string,
   ): Promise<{ imageUrl: string; orderId: string }> {
     if (!file) {
       throw new BadRequestException('이미지 파일이 없습니다.');
@@ -29,7 +30,8 @@ export class OrdersService {
     const folder = designType === 'motion' ? 'motion' : 'route';
     const rawTitle = title?.trim() || 'untitled';
     const safeTitle = rawTitle.replace(/\s+/g, '_');
-    const key = `${folder}/${dateStr}_${timeStr}_${safeTitle}.png`;
+    const color = shirtColor === 'white' ? 'white' : 'black';
+    const key = `${folder}/${dateStr}_${timeStr}_${safeTitle}_${color}.png`;
     const resolvedOrderId = orderId || `order_${dateStr}_${timeStr}_${Math.random().toString(36).slice(2, 8)}`;
 
     try {

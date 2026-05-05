@@ -37,8 +37,9 @@ export class OrdersController {
     @Body('orderId') orderId?: string,
     @Body('designType') designType?: string,
     @Body('title') title?: string,
+    @Body('shirtColor') shirtColor?: string,
   ) {
-    const result = await this.ordersService.captureDesignImage(file, orderId, designType, title);
+    const result = await this.ordersService.captureDesignImage(file, orderId, designType, title, shirtColor);
     return { success: true, ...result };
   }
 
