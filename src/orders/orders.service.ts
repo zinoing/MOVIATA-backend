@@ -16,18 +16,19 @@ export class OrdersService {
     file: Express.Multer.File,
     orderId?: string,
     designType?: string,
+    title?: string,
   ): Promise<{ imageUrl: string; orderId: string }> {
     if (!file) {
       throw new BadRequestException('이미지 파일이 없습니다.');
     }
 
-    const folder = designType === 'motion' ? 'motion' : 'route';
     const now = new Date();
-    const dateStr = now.toISOString().slice(0, 16).replace('T', '_').replace(/-/g, '').replace(':', '');
-    const resolvedOrderId = orderId || `order_${dateStr}_${Math.random().toString(36).slice(2, 8)}`;
-    const timestamp = Date.now();
-    const ext = file.mimetype === 'image/png' ? 'png' : 'jpg';
-    const key = `${folder}/${resolvedOrderId}/${timestamp}.${ext}`;
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const dateStr = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}`;
+    const timeStr = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+    const safeTitle = title ? `_${title.replace(/\s+/g, '_')}` : '';
+    const key = `${dateStr}_${timeStr}${safeTitle}.png`;
+    const resolvedOrderId = orderId || `order_${dateStr}_${timeStr}_${Math.random().toString(36).slice(2, 8)}`;
 
     try {
       await getR2Client().send(
