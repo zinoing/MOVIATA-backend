@@ -26,8 +26,9 @@ export class OrdersService {
     const pad = (n: number) => String(n).padStart(2, '0');
     const dateStr = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}`;
     const timeStr = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
-    const safeTitle = title ? `_${title.replace(/\s+/g, '_')}` : '';
-    const key = `${dateStr}_${timeStr}${safeTitle}.png`;
+    const rawTitle = title?.trim() || 'untitled';
+    const safeTitle = rawTitle.replace(/\s+/g, '_');
+    const key = `${dateStr}_${timeStr}_${safeTitle}.png`;
     const resolvedOrderId = orderId || `order_${dateStr}_${timeStr}_${Math.random().toString(36).slice(2, 8)}`;
 
     try {
