@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { getR2Client } from '../lib/r2';
 
-interface CollectionItem {
+export interface CollectionItem {
   fileName: string;
   imageUrl: string;
   title: string;
